@@ -6,7 +6,8 @@ h2{text-shadow: 3px 2px 0px rgba(150, 150, 150, 1);}
 	position: absolute;
 	z-index: 100;
 	opacity: 0;
-	transition: all .3s easy-in .15s;
+	transition: all 3s easy-in .15s;
+	visibility:hidden;
 	}
 
 .submenu li {
@@ -17,8 +18,7 @@ h2{text-shadow: 3px 2px 0px rgba(150, 150, 150, 1);}
 .desplegable:hover .submenu {
 	opacity:1;
 	display: block;
-	visibility: 
-	
+	visibility:visible;	
 	}
 
 
