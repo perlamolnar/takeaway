@@ -27,10 +27,32 @@
 			</div>
 		</nav>  
 		
-		<section id="contacto">
-			<form id="contactForm">
-			
-			
+		<section id="contacto" >
+			<form id="contactForm" action="php/recibedatos.php" method="post">
+				<div class="container ">
+					<div class="row">
+						
+						<div class=" col l6 m6 s12 input-field">
+						<input placeholder="Nombre y Apellidos" id="nombreApellidos" name="nombreApellidos" type="text" class="validate" required value="Gyongyi Molnar">
+						<label for="nombreApellidos">Nombre</label>
+						</div>
+
+						<div class=" col l6 m6 s12  input-field">
+						<input id="email" name="email" type="email" class="validate" required value="mail@mail.com">
+						<label for="email" data-error="Email incorrecto">Email</label>
+						</div>
+						
+						<div class=" col l12 m12 s12  input-field">
+						<textarea id="mensaje" name="mensaje" class="materialize-textarea"></textarea>
+						<label for="mensaje">Mensaje</label>
+						</div>
+						
+						<button class="btn waves-effect waves-light" type="submit" name="action">Enviar
+						<i class="material-icons right">send</i>
+						</button>
+						
+					</div>
+				</div>
 			</form>
 		</section>
 				
