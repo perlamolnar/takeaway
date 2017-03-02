@@ -6,8 +6,8 @@ $(document).ready(function() {
 			dataType: 'json',
 			success : function(result){
 				console.log (result);
-			    var tbl_body = ""; 
-			    //recorrer el array que manda el php
+			    var tbl_body = ""; 							//recorrer el array que manda el php
+		        
 		        $.each(result.query, function() {  			//hace un bucle/loop que se repite para cada elemento de array
 		        	
 		        	if (debug) console.log("Pintando");
