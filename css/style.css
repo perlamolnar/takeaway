@@ -1,13 +1,15 @@
-#ensaladas .card-reveal {background-color: rgba(220,231,117,0.8)}
+.fixed-action-btn.horizontal ul li {margin:8px 8px 0 0}
 
-h2{text-shadow: 3px 2px 0px rgba(150, 150, 150, 1);}
+h2, li a.btn-floating{text-shadow: 2px 2px 3px rgba(2, 2, 2, 1);}
+
+btn-floating {z-index:-10;}
 
 .submenu {
 	position: absolute;
 	z-index: 100;
 	opacity: 0;
-	transition: all 3s easy-in .15s;
-	visibility:hidden;
+	transition: all .3s easy-in .15s;
+	visibility: hidden;
 	}
 
 .submenu li {
@@ -20,9 +22,43 @@ h2{text-shadow: 3px 2px 0px rgba(150, 150, 150, 1);}
 	display: block;
 	visibility:visible;	
 	}
-
-
-
+.brand-logo{
+	background-color: brown darken-4;
+	color: white;
+	font-size:8 em;
+	text-shadow: 2px 2px 0px rgba(150, 150, 150, 1);
+	letter-spacing: 50px; 
+	font-weight: 900;
+	}
+.ensaladas{
+	background-color: teal lighten-3;
+	color: white;
+	font-size:2.5em;
+	text-shadow: 3px 2px 0px rgba(100, 100, 100, 1);
+	letter-spacing: 10px;
+	}
+.principales{
+	background-color: orange darken-3;
+	color: white;
+	font-size:2.5em;
+	text-shadow: 3px 2px 0px rgba(100, 100, 100, 1);
+	letter-spacing: 10px;
+	}
+.postres{
+	background-color: lime lighten-2;
+	color: white;
+	font-size:2.5em;
+	text-shadow: 3px 2px 0px rgba(100, 100, 100, 1);
+	letter-spacing: 10px;
+	}
+	
+.container {
+	text-align:center;
+}	
+	
+nav {z-index:100}
+.margensup {margin-top:10px}
+.margentop {margin-top:10px}
 
 
 
