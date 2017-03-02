@@ -12,7 +12,7 @@ if ($_POST) {
 	$email = $_POST['email'];
 	$mensaje = $_POST['mensaje'];
 	
-	$mysqli = new mysqli('127.0.0.1', 'root', '', 'takeaway');
+	$mysqli = new mysqli('127.0.0.1', 'root', '', 'takeaway'); 
 	
 	mysqli_set_charset($mysqli, "utf8");
 	
