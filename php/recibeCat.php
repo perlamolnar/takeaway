@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD']==='POST'){
 	$valores = substr($valores, 0, -2);
 
 	$sql = "INSERT INTO categoria ($campos) VALUES ($valores)"; //Esta linea almacenamos la informacion en esta misma variable (sql)
-	$mysqli=new mysqli ("localhost","root","","takeaway"); // esta linea hace una coneccion a los date de bases.(server, username, password, databasename)
+	$mysqli= new mysqli ("localhost","root","","takeaway")  or die(mysql_error()); // esta linea hace una coneccion a los date de bases.(server, username, password, databasename)
 	mysqli_set_charset($mysqli,"utf8");
 	
 	if ($mysqli){
