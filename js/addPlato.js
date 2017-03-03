@@ -6,10 +6,10 @@ $(document).ready(function() {
 			dataType: 'json',
 			success : function(result){
 				console.log (result);
-
+				var options =" ";	
 		        $.each(result.query, function() {  			//hace un bucle/loop que se repite para cada elemento de array
 		        	if (debug) console.log("Pintando");     //para controlar en consol
-		        	var options =" ";						//ofrecera todas las categoras (optiones)
+		        						//ofrecera todas las categoras (optiones)
 		        	$.each(this, function(campo, valor) {     		//(k: key/campo y v: value) pidemos que separe los campos de los valores de cada array
 	        			options += "<options>"+valor+"</options>";		//y ponga solo los valores sin campos en las cellas.
 	        		});	            	
@@ -21,5 +21,4 @@ $(document).ready(function() {
 				alert("errorrrrrrr!!!");
 			}
 		});
-
 });
