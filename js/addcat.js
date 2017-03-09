@@ -1,7 +1,7 @@
 $(document).ready(function() {
 				var debug=true;
 				$('select').material_select();
-				$("#formCat").submit(function(event){
+				$("#formCat").submit(function(event){		//el submit enviaria el usuario a ortra pagina
 				event.preventDefault();	//Evita el refresh automático que se produce al enviar el form
 				
 				//ESTO es la forma de obtener datos del formulario y convertirlo en formato JSON
