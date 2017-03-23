@@ -25,36 +25,59 @@
 					<li><a href="contacto.html">Contacto</a></li>
 				</ul>
 			</div>
-		</nav>  
-		
-		<section id="contacto" >
-			<form id="contactForm" action="php/recibedatos.php" method="post">
-				<div class="container ">
-					<div class="row">
-						
-						<div class=" col l6 m6 s12 input-field">
-						<input placeholder="Nombre y Apellidos" id="nombreApellidos" name="nombreApellidos" type="text" class="validate" required value="Gyongyi Molnar">
-						<label for="nombreApellidos">Nombre</label>
-						</div>
+		</nav> 
+		<div class="container" >
+			<div class="row">
+				<div class="col l6 m6 s12">
+					<div class="col l12 m12 s12">
+						<h3>Info</h3>
+						<p>Horario: Lunes a viernes de 10h a 15h y de 19h a 22h.</p>
+						<p>Sabados y Domingos de 9h a 16h y de 19h 23h.</p>	
+						<p>Telefono: 98789 63 69</p>
+						<p>Email: takeaway@vilanova.com</p>	
+					</div>
 
-						<div class=" col l6 m6 s12  input-field">
-						<input id="email" name="email" type="email" class="validate" required value="mail@mail.com">
-						<label for="email" data-error="Email incorrecto">Email</label>
-						</div>
-						
-						<div class=" col l12 m12 s12  input-field">
-						<textarea id="mensaje" name="mensaje" class="materialize-textarea"></textarea>
-						<label for="mensaje">Mensaje</label>
-						</div>
-						
-						<button class="btn waves-effect waves-light" type="submit" name="action">Enviar
-						<i class="material-icons right">send</i>
-						</button>
-						
+					<div class="col l12 m12 s12">
+						<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3000.7907545146745!2d1.7239589154207884!3d41.22633017927922!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a386e2ec6a02ef%3A0x2716f39d4940087b!2sCarrer+de+Sant+Pau%2C+8%2C+08800+Vilanova+i+la+Geltr%C3%BA%2C+Barcelona!5e0!3m2!1ses!2ses!4v1490293049738" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
 					</div>
 				</div>
-			</form>
-		</section>
+
+				<div class="col l6 m6 s12 valign-wrapper">
+					<section id="contacto" >
+						<h3>Formulario Contacto</h3>
+							<form id="contactForm" action="php/recibedatos.php" method="post">
+								
+									<div class="row">
+										
+										<div class=" col l6 m6 s12 input-field">
+										<input placeholder="Nombre y Apellidos" id="nombreApellidos" name="nombreApellidos" type="text" class="validate" required value="Gyongyi Molnar">
+										<label for="nombreApellidos">Nombre</label>
+										</div>
+
+										<div class=" col l6 m6 s12  input-field">
+										<input id="email" name="email" type="email" class="validate" required value="mail@mail.com">
+										<label for="email" data-error="Email incorrecto">Email</label>
+										</div>
+										
+										<div class=" col l12 m12 s12  input-field">
+										<textarea id="mensaje" name="mensaje" class="materialize-textarea"></textarea>
+										<label for="mensaje">Mensaje</label>
+										</div>
+										
+										<button class="btn waves-effect waves-light" type="submit" name="action">Enviar
+										<i class="material-icons right">send</i>
+										</button>
+										
+									</div>
+								
+							</form>
+					</section>
+
+				</div>
+			</div>
+		</div>
+
+		
 				
 		
         <footer class="page-footer brown darken-4">

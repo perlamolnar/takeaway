@@ -3,7 +3,6 @@ $(document).ready(function(){
 	// the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
 	$('.modal').modal();
 	$('#modal1').modal('open');
-
 	var debug=true;
 	//hayCarrito rescata la variable de localstorage para 
 	//rescatar los productos añadidos al carrito
@@ -11,11 +10,9 @@ $(document).ready(function(){
 	if (hayCarrito!=null){
 		hayCarrito=JSON.parse(hayCarrito);
 		$('#hayProductos').remove();
-		$('#resProducts').append('<tr><td>${titulo}</td><td>${cantidad}</td><td>${precio}</td></tr>');	
-		for (i in hayCarrito) {
-		//console.warn(hayCarrito[i].titulo);
 		pintaModal(hayCarrito);
 	}
+
 	$.ajax({
 		url:'php/getListPlatos.php',
 		type: 'GET',
@@ -39,7 +36,7 @@ $(document).ready(function(){
 			alert("errorrrrrrr!!!");
 		}
 	});
-
+});
 function pintaCard(id, titulo, img, precio, descripcion, categoria){  //los 5 variables que vamos a recibira el pintacard
 			//var titulo="Card desde JS";
 			//var img="img/ford1.jpg";
@@ -85,20 +82,14 @@ function pintaCard(id, titulo, img, precio, descripcion, categoria){  //los 5 va
 				case "Postres":
 				$('#postreRow').append(card);
 				break;
-				default: console.warn("Existen platos que no coinciden...");
+				default: console.warn("Existen platos que no coinciden con categoría");
 			}
 		}
-function addCart(id,cantidad,precio,titulo){
-	//console.log("Llega a carrito:"+id+", "+cantidad*precio+".");
-	carrito.push({id:id, cantidad:cantidad, precio:precio*cantidad, titulo:titulo});  	//es un push a un objeto: al array, para crear el array
-																		//id:id, es un campo y su valor
-	console.log(carrito);
-	var JsonCart=JSON.stringify(carrito); 			//convertir carrito a Json. El Json es puro texto! no hay problema para guardar.
-	localStorage.setItem("JsonCart",JsonCart);		//vamos a guardar el info en el localStorage, que es Json
-	}
 
 function addCart(id,cantidad,precio,titulo){	
+	//console.log("Llega a carrito:"+id+", "+cantidad*precio+".");
 	var cartExist=localStorage.getItem("JsonCart");
+	console.warn(cartExist);
 	var existeProduct=false;
 	if (cartExist!=null){
 		cartExist=JSON.parse(cartExist);
@@ -110,6 +101,7 @@ function addCart(id,cantidad,precio,titulo){
 			//si lo encuentra se pone en true para después comprobar
 			//si se añade como nuevo producto al carrito.
 			existeProduct=true;
+			cartExist[i].precio=cartExist[i].precio+precio;
 			cartExist[i].cantidad=cartExist[i].cantidad+cantidad;
 		}
 	}
@@ -120,26 +112,35 @@ function addCart(id,cantidad,precio,titulo){
 	}
 	//este else controla que es la primera vez que se añaden productos al carrito
 	else {
+		//Es en el caso que previamente no existan productos en el carrito
 		cartExist=[{id:id,cantidad:cantidad,precio:precio*cantidad,titulo:titulo}];
 		$('#hayProductos').remove();
-		$()
+		
 		pintaModal(cartExist);
 	}	
 	console.log(cartExist);
-	var JsonCart=JSON.stringify(cartExist);
-	localStorage.setItem("JsonCart",JsonCart);
+	var JsonCart=JSON.stringify(cartExist);		//convertir carrito a Json. El Json es puro texto! no hay problema para guardar.
+	localStorage.setItem("JsonCart",JsonCart);  //vamos a guardar el info en el localStorage, que es Json
 }
 
-function pintaModal(JsonCart){
-	$('@resProducts').empty();
-	$('@resProducts').append('<tr><td>${nombre}</td><td>${cantidad}</td><td>${precio}</td></tr>');
+function pintaModal(hayCarrito){
+	$('#listaProducts').empty();
+	$('#listaProducts').append('<tr><th>Plato</th><th>Cantidad</th><th>Total</th>');
+	var precioTotal=0;
 	for (i in hayCarrito){
 		var nombre=hayCarrito[i].titulo;
-		var cantidad=hayCarrito[i].dantidad;
+		var cantidad=hayCarrito[i].cantidad;
 		var precio=hayCarrito[i].precio;
+		precioTotal +=hayCarrito[i].precio;
 		var rowProduct=`
-		<tr><td>${nombre}</td><td>${cantidad}</td><td>${precio}</td></tr>
+		<tr><td>${nombre}</td><td>${cantidad}</td><td>${precio} €</td></tr>
 		`;
-		$('#resProduct').append(rowProducts);
+		$('#listaProducts').append(rowProduct);
+	
 		}
+		console.log(precioTotal);
+		var rowProduct=`
+		<tr><td>PRECIO TOTAL:</td><td></td><td>${precioTotal} €</td></tr>
+		`;
+		$('#listaProducts').append(rowProduct);
 	}
