@@ -2,7 +2,8 @@
 $test=4;
 //para comprobar si se recibe un post desde un ajax:
 if ($_SERVER['REQUEST_METHOD']==='GET'){
-	$sql = "SELECT id_categoria, id, nombre, descripcion, precio, disponible, foto FROM platos";
+	$sql = "SELECT categoria.nombre as nombreCat, platos.id, platos.nombre, platos.descripcion, platos.precio, platos.disponible, platos.foto FROM categoria, platos WHERE categoria.id=platos.id_categoria";
+
 	$mysqli=new mysqli ("localhost","root","","takeaway"); // esta linea hace una coneccion a los date de bases.
 	//(server, username, password, databasename)
 	mysqli_set_charset($mysqli,"utf8");
