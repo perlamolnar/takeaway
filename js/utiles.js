@@ -1,11 +1,21 @@
- var carrito=[]; 				//iniciamos un array de cero, HAYque declarar primiro para que funcciona!!!!!
+var carrito=[]; 				//iniciamos un array de cero, HAYque declarar primiro para que funcciona!!!!!
 $(document).ready(function(){
 	// the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
 	$('.modal').modal();
 	$('#modal1').modal('open');
 
 	var debug=true;
-
+	//hayCarrito rescata la variable de localstorage para 
+	//rescatar los productos añadidos al carrito
+	var hayCarrito=localStorage.getItem('JsonCart');
+	if (hayCarrito!=null){
+		hayCarrito=JSON.parse(hayCarrito);
+		$('#hayProductos').remove();
+		$('#resProducts').append('<tr><td>${titulo}</td><td>${cantidad}</td><td>${precio}</td></tr>');	
+		for (i in hayCarrito) {
+		//console.warn(hayCarrito[i].titulo);
+		pintaModal(hayCarrito);
+	}
 	$.ajax({
 		url:'php/getListPlatos.php',
 		type: 'GET',
@@ -29,8 +39,6 @@ $(document).ready(function(){
 			alert("errorrrrrrr!!!");
 		}
 	});
-});
-
 
 function pintaCard(id, titulo, img, precio, descripcion, categoria){  //los 5 variables que vamos a recibira el pintacard
 			//var titulo="Card desde JS";
@@ -87,56 +95,51 @@ function addCart(id,cantidad,precio,titulo){
 	console.log(carrito);
 	var JsonCart=JSON.stringify(carrito); 			//convertir carrito a Json. El Json es puro texto! no hay problema para guardar.
 	localStorage.setItem("JsonCart",JsonCart);		//vamos a guardar el info en el localStorage, que es Json
-	
-
-}
-
-//hayCarrito rescata la variable de localstorage
-//rescatar kis oridyctis aladudis ak carruit
-function pedidoActual(){
-	var hayCarrito=localStorage.getItem('JsonCart');
-	console.log(hayCarrito);
-	hayCarrito=JSON.parse(hayCarrito);
-	var id;
-	var titulo;
-	var cantidad;
-	var precio;
-	id=0;
-	cantidad=0;
-	precio=0;
-	titulo="";
-
-	$('#modal2').text('');
-
-	for (i in hayCarrito){				//for crea bucles en el processo de buscar los datos de json
-	//console.warn(hayCarrito[i].titulo);
-	id=hayCarrito[i].id;
-	titulo=hayCarrito[i].titulo;
-	cantidad=hayCarrito[i].dantidad;
-	precio=hayCarrito[i].precio;
-	
-
 	}
 
-	var shoppingCart=`<div class="modal-content">
-					<h4>Lista de Pedido</h4>
-					
-					<table>
-					<thead>
-					<th>ID</th><th>PLATO</th><th>CANTIDAD</th><th>PRECIO</th>
-					</thead>
-					<tbody>
-					<tr><td></td><td></td><td></td><td></td></tr>
-					</tbody>
-					</table>
-					
-				</div>
-				<div class="modal-footer">
-					<a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">CANCELAR</a>
-					<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">COMPRAR</a>
-				</div>`;
-		$('#modal2').append(shoppingCart);
-		$('#modal2').modal('open');
+function addCart(id,cantidad,precio,titulo){	
+	var cartExist=localStorage.getItem("JsonCart");
+	var existeProduct=false;
+	if (cartExist!=null){
+		cartExist=JSON.parse(cartExist);
+		console.log("Ya existen productos en el carrito");
+		//buscamos si existe para añadir cantidad
+	for (i in cartExist) {
+		if (id==cartExist[i].id) {
+			//se usa esta variable para saber si lo ha encontrado
+			//si lo encuentra se pone en true para después comprobar
+			//si se añade como nuevo producto al carrito.
+			existeProduct=true;
+			cartExist[i].cantidad=cartExist[i].cantidad+cantidad;
+		}
+	}
+	if (!existeProduct){  //if negado!
+		cartExist.push({id:id,cantidad:cantidad,precio:precio*cantidad,titulo:titulo});
+	}
+	pintaModal(cartExist);
+	}
+	//este else controla que es la primera vez que se añaden productos al carrito
+	else {
+		cartExist=[{id:id,cantidad:cantidad,precio:precio*cantidad,titulo:titulo}];
+		$('#hayProductos').remove();
+		$()
+		pintaModal(cartExist);
+	}	
+	console.log(cartExist);
+	var JsonCart=JSON.stringify(cartExist);
+	localStorage.setItem("JsonCart",JsonCart);
 }
 
-
+function pintaModal(JsonCart){
+	$('@resProducts').empty();
+	$('@resProducts').append('<tr><td>${nombre}</td><td>${cantidad}</td><td>${precio}</td></tr>');
+	for (i in hayCarrito){
+		var nombre=hayCarrito[i].titulo;
+		var cantidad=hayCarrito[i].dantidad;
+		var precio=hayCarrito[i].precio;
+		var rowProduct=`
+		<tr><td>${nombre}</td><td>${cantidad}</td><td>${precio}</td></tr>
+		`;
+		$('#resProduct').append(rowProducts);
+		}
+	}
