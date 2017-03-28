@@ -1,9 +1,11 @@
 var carrito=[]; 				//iniciamos un array de cero, HAYque declarar primiro para que funcciona!!!!!
 $(document).ready(function(){
-	// the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+	// the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered	
 	$('.modal').modal();
+	$(".button-collapse").sideNav();
 	$('#modal1').modal('open');
 	var debug=true;
+	$('#pasaporcajabtn').hide();
 	//hayCarrito rescata la variable de localstorage para 
 	//rescatar los productos añadidos al carrito
 	var hayCarrito=localStorage.getItem('JsonCart');
@@ -11,6 +13,7 @@ $(document).ready(function(){
 		hayCarrito=JSON.parse(hayCarrito);   
 		//parse pasa el texto (de json de localstorage)a lenguaje javascript. Es el contrario del stringify.
 		$('#hayProductos').remove();
+		$('#pasaporcajabtn').show();
 		pintaModal(hayCarrito);
 	}
 
@@ -44,7 +47,7 @@ function pintaCard(id, titulo, img, precio, descripcion, categoria){  //los 5 va
 			//var precio="10,50";
 			//var descripcion="Texto de ejemplo para la descripcioón";
 			//console.log(categoria);
-			var card=`<div class="col l3 m4 s6">
+			var card=`<div class="col l3 m4 s12">
 			<div class="card">
 				<div class="card-image waves-effect waves-block waves-light">
 					<img class="activator" src="${img}">
@@ -126,6 +129,7 @@ function addCart(id,cantidad,precio,titulo){
 		pintaModal(cartExist);
 	}	
 	console.log(cartExist);
+	$('#pasaporcajabtn').show();
 	var JsonCart=JSON.stringify(cartExist);		//convertir carrito a Json. El Json es puro texto! no hay problema para guardar.
 	localStorage.setItem("JsonCart",JsonCart);  //vamos a guardar el info en el localStorage, que es Json
 }
