@@ -14,63 +14,37 @@
 		<!--Import jQuery before materialize.js-->
 		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 		<script type="text/javascript" src="js/materialize.min.js"></script>
-	<script>
-		$(document).ready(function(){
-			var hayCarrito=localStorage.getItem('JsonCart');
-			if (hayCarrito!=null){
-				hayCarrito=JSON.parse(hayCarrito);
-				$('#hayProductos').remove();
-				pintaModal(hayCarrito);
-			}
-
-		$('#btnPay').click(function (){
-        var dataCart=JSON.stringify(hayCarrito);
-        $.ajax({
-          url: 'php/addPedido.php',
-          type: 'POST',
-          dataType: 'json',
-          data: dataCart,
-          success : function(result){
-            console.log("Se guardó correctamente el pedido");
-            
-          },
-          error: function(result){
-            alert("errorrrrrr!!!");
-          }
-        });
-      }) 
-	});
-
-		function pintaModal(hayCarrito){
-			$('#listaProducts').empty();
-			$('#listaProducts').append('<tr><th>Plato</th><th>Cantidad</th><th>Total</th>');
-			var precioTotal=0;
-			for (i in hayCarrito){
-				var nombre=hayCarrito[i].titulo;
-				var cantidad=hayCarrito[i].cantidad;
-				var precio=hayCarrito[i].precio;
-				precioTotal +=hayCarrito[i].precio;
-				var rowProduct=`
-				<tr><td>${nombre}</td><td>${cantidad}</td><td>${precio} €</td></tr>
-				`;
-				$('#listaProducts').append(rowProduct);
-			
+		<script type="text/javascript" src="js/utiles.js"></script>
+		<script>
+			$(document).ready(function(){
+				var hayCarrito=localStorage.getItem('JsonCart');
+				if (hayCarrito!=null){
+					hayCarrito=JSON.parse(hayCarrito);
+					$('#hayProductos').remove();
+					pintaModal(hayCarrito);
 				}
-				console.log(precioTotal);
-				var rowProduct=`
-				<tr><td>PRECIO TOTAL:</td><td></td><td>${precioTotal} €</td></tr>
-				`;
-				$('#listaProducts').append(rowProduct);
-			}
 
-
-
-
+			$('#btnPay').click(function (){					
+	        var hayCarrito=localStorage.getItem('JsonCart');	//cogemos los datos
+	        console.log(hayCarrito);
+	        $.ajax({
+	          url: 'php/recibePedido.php',						//enviamos los datos
+	          type: 'POST',
+	          dataType: 'json',
+	          data: hayCarrito,
+	          success : function(result){
+	            console.log("Se guardó correctamente el pedido");
+	            localStorage.clear('JsonCart');
+	            $('#listaProducts').fadeOut();
+	            $('#thanks').fadeOut();
+	          },
+	          error: function(result){
+	            alert("errorrrrrr!!!");
+	          }
+	        });
+	      }) 
+		});
 	</script>
-
-
-
-
 
 		<nav>
 			<div class="nav-wrapper brown darken-4">
@@ -87,12 +61,17 @@
 	<div class="container"
 		<section id="checkout" class="container">
 			<table id="listaProducts">
-
+			
 			</table>
 			<div class="row">
 				<button id="btnPay" class="btn left waves-effect btn-flat green white-text">Finalizar</button>
+			</div>			
+		</section>	
+		<section id="thanks">
+			<div class="valingn-wrapper green lighten white-text" style="height:100%">
+			<h4>Tu pedido se ha completado con exito, muchas gracias!</h4>
 			</div>
-		</section>		
+		</section>	
 	</div>		
 
         <footer class="page-footer brown darken-4">
@@ -119,7 +98,6 @@
             <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
             </div>
           </div>
-        </footer>
-		
+        </footer>		
 	</body>
   </html>
