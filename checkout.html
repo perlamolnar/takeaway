@@ -24,15 +24,16 @@
 			}
 
 		$('#btnPay').click(function (){
-        var dataCart=JSON.stringify(hayCarrito);
+        var hayCarrito=JSON.stringify('JsonCart');
+        console.log(hayCarrito);
         $.ajax({
-          url: 'php/addPedido.php',
+          url: 'php/recibePedido.php',
           type: 'POST',
           dataType: 'json',
-          data: dataCart,
+          data: hayCarrito,
           success : function(result){
             console.log("Se guardó correctamente el pedido");
-            
+            console.log(result); 
           },
           error: function(result){
             alert("errorrrrrr!!!");
