@@ -1,15 +1,19 @@
 var carrito=[]; 				//iniciamos un array de cero, HAYque declarar primiro para que funcciona!!!!!
 $(document).ready(function(){
-	// the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+	// the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered	
 	$('.modal').modal();
+	$(".button-collapse").sideNav();
 	$('#modal1').modal('open');
 	var debug=true;
+	$('#pasaporcajabtn').hide();
 	//hayCarrito rescata la variable de localstorage para 
 	//rescatar los productos añadidos al carrito
 	var hayCarrito=localStorage.getItem('JsonCart');
 	if (hayCarrito!=null){
-		hayCarrito=JSON.parse(hayCarrito);
+		hayCarrito=JSON.parse(hayCarrito);   
+		//parse pasa el texto (de json de localstorage)a lenguaje javascript. Es el contrario del stringify.
 		$('#hayProductos').remove();
+		$('#pasaporcajabtn').show();
 		pintaModal(hayCarrito);
 	}
 
@@ -43,7 +47,7 @@ function pintaCard(id, titulo, img, precio, descripcion, categoria){  //los 5 va
 			//var precio="10,50";
 			//var descripcion="Texto de ejemplo para la descripcioón";
 			//console.log(categoria);
-			var card=`<div class="col l3 m4 s6">
+			var card=`<div class="col l3 m4 s12">
 			<div class="card">
 				<div class="card-image waves-effect waves-block waves-light">
 					<img class="activator" src="${img}">
@@ -95,52 +99,86 @@ function addCart(id,cantidad,precio,titulo){
 		cartExist=JSON.parse(cartExist);
 		console.log("Ya existen productos en el carrito");
 		//buscamos si existe para añadir cantidad
-	for (i in cartExist) {
-		if (id==cartExist[i].id) {
+		for (i in cartExist) {
+			if (id==cartExist[i].id) {
 			//se usa esta variable para saber si lo ha encontrado
 			//si lo encuentra se pone en true para después comprobar
 			//si se añade como nuevo producto al carrito.
 			existeProduct=true;
-			cartExist[i].precio=cartExist[i].precio+precio;
+			//console.log("antes" +cartExist [i].precio);
+			//cartExist[i].precio=cartExist[i].precio+precio;
+			//console.log("despues"+cartExist [i].precio);
+			
+			//console.log("antes"+cartExist [i].cantidad);
 			cartExist[i].cantidad=cartExist[i].cantidad+cantidad;
+			//console.log("despues"+cartExist [i].cantidad);
+			}
+			else console.log(cartExist[i].id);
+			}
+		if (!existeProduct){  //if negado!
+		console.log('producto nuevo');
+		cartExist.push({id:id,cantidad:cantidad,precio:precio,titulo:titulo});
 		}
-	}
-	if (!existeProduct){  //if negado!
-		cartExist.push({id:id,cantidad:cantidad,precio:precio*cantidad,titulo:titulo});
-	}
-	pintaModal(cartExist);
+		pintaModal(cartExist);
 	}
 	//este else controla que es la primera vez que se añaden productos al carrito
 	else {
 		//Es en el caso que previamente no existan productos en el carrito
 		cartExist=[{id:id,cantidad:cantidad,precio:precio*cantidad,titulo:titulo}];
 		$('#hayProductos').remove();
-		
 		pintaModal(cartExist);
 	}	
 	console.log(cartExist);
+	$('#pasaporcajabtn').show();
 	var JsonCart=JSON.stringify(cartExist);		//convertir carrito a Json. El Json es puro texto! no hay problema para guardar.
 	localStorage.setItem("JsonCart",JsonCart);  //vamos a guardar el info en el localStorage, que es Json
 }
 
-function pintaModal(hayCarrito){
+function pintaModal(hayCarrito){		//contenido de CARRITO y es lo mismo en CHECKOUT tambien
 	$('#listaProducts').empty();
-	$('#listaProducts').append('<tr><th>Plato</th><th>Cantidad</th><th>Total</th>');
+	$('#listaProducts').append('<tr><th></th><th>Plato</th><th></th><th>Cantidad</th><th></th><th>Precio</th><th>Total</th>');
 	var precioTotal=0;
 	for (i in hayCarrito){
 		var nombre=hayCarrito[i].titulo;
 		var cantidad=hayCarrito[i].cantidad;
 		var precio=hayCarrito[i].precio;
-		precioTotal +=hayCarrito[i].precio;
+		precioTotal +=precio*cantidad;
 		var rowProduct=`
-		<tr><td>${nombre}</td><td>${cantidad}</td><td>${precio} €</td></tr>
+		<tr><td><a href="#" onclick="basura(`+i+`);"> <i class="material-icons">delete</i></a></td><td>${nombre}</td><td><a href="#" onclick="plusone(`+i+ `);"> <i class="material-icons">arrow_drop_up</i></a></td><td>${cantidad}</td><td><a href="#" onclick="minusuno(`+i+`);"> <i class="material-icons">arrow_drop_down</i></a></td><th>${precio}€</th><td>${precio*cantidad} €</td></tr>
 		`;
 		$('#listaProducts').append(rowProduct);
-	
+		
 		}
 		console.log(precioTotal);
 		var rowProduct=`
-		<tr><td>PRECIO TOTAL:</td><td></td><td>${precioTotal} €</td></tr>
+		<tr><td></td><td>PRECIO TOTAL:</td><td></td><td></td><td></td><td></td><td>${precioTotal} €</td></tr>
 		`;
 		$('#listaProducts').append(rowProduct);
 	}
+function basura(linea1){
+	var borrar = localStorage.getItem("JsonCart");	//leer carrito de local storage
+	borrar = JSON.parse(borrar);					//pasar carrito de texto a un array
+	borrar.splice(linea1,1);						//eliminar el array (la linea actual) del carrito
+	var JsonCart=JSON.stringify(borrar);			//pasar array a texto en JSON
+	localStorage.setItem("JsonCart",JsonCart);		//guardar carrito en localstorage
+	pintaModal(borrar);								//visualizar nuevo carrito
+}
+
+function plusone(item1){
+	var mas1=localStorage.getItem("JsonCart");  	//leer carrito de local storage
+	mas1 = JSON.parse(mas1);						//pasar carrito de texto a un array
+	mas1[item1].cantidad = mas1[item1].cantidad+1; 	//la funcion es añadir uno al la cantidad cogido
+	var JsonCart=JSON.stringify(mas1);				//pasar array a texto
+	localStorage.setItem("JsonCart",JsonCart);		//guardar carrito en localstorage
+	pintaModal(mas1);								//visualizar nuevo carrito
+}
+
+function minusuno(item2){
+	var menos1 =localStorage.getItem("JsonCart");  		//leer carrito de local storage
+	menos1 = JSON.parse(menos1);						//pasar carrito de texto a un array
+	menos1[item2].cantidad = menos1[item2].cantidad-1; 	//la funcion es quitar uno al la cantidad cogido
+	var JsonCart=JSON.stringify(menos1);				//pasar array a texto
+	localStorage.setItem("JsonCart",JsonCart);			//guardar carrito en localstorage
+	pintaModal(menos1);									//visualizar nuevo carrito
+	//falta eliminar si llega a zero!!!
+}

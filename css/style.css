@@ -26,8 +26,8 @@ btn-floating {z-index:-10;}
 	background-color: brown darken-4;
 	color: white;
 	font-size:8 em;
-	text-shadow: 2px 2px 0px rgba(150, 150, 150, 1);
-	letter-spacing: 50px; 
+	text-shadow: 1px 1px 0px rgba(150, 150, 150, 1);
+	letter-spacing: 10px; 
 	font-weight: 900;
 	}
 .ensaladas{

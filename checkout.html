@@ -14,6 +14,7 @@
 		<!--Import jQuery before materialize.js-->
 		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 		<script type="text/javascript" src="js/materialize.min.js"></script>
+<<<<<<< HEAD
 	<script>
 		$(document).ready(function(){
 			var hayCarrito=localStorage.getItem('JsonCart');
@@ -56,22 +57,44 @@
 				`;
 				$('#listaProducts').append(rowProduct);
 			
+=======
+		<script type="text/javascript" src="js/utiles.js"></script>
+		<script>
+			$(document).ready(function(){
+				$('#thanks').hide();
+				$('select').material_select();
+				var hayCarrito=localStorage.getItem('JsonCart');
+				if (hayCarrito!=null){
+					hayCarrito=JSON.parse(hayCarrito);
+					$('#hayProductos').remove();
+					pintaModal(hayCarrito);
+>>>>>>> b75370c7951381ed65140bb9b092090def67218a
 				}
-				console.log(precioTotal);
-				var rowProduct=`
-				<tr><td>PRECIO TOTAL:</td><td></td><td>${precioTotal} €</td></tr>
-				`;
-				$('#listaProducts').append(rowProduct);
-			}
 
+			$('#btnPay').submit(function (event){
+			event.preventdefault();					
+	        var hayCarrito=localStorage.getItem('JsonCart');	//cogemos los datos
+	        console.log(hayCarrito);
 
-
-
+	        $.ajax({
+	          url: 'php/recibePedido.php',						//enviamos los datos
+	          type: 'POST',
+	          dataType: 'json',
+	          data: hayCarrito,
+	          success : function(result){
+	            console.log("Se guardó correctamente el pedido");
+	            console.log(result);
+	            localStorage.clear('JsonCart');
+	            $('#checkout').fadeOut();
+	            $('#thanks').fadeIn(1500);
+	          },
+	          error: function(result){
+	            alert("errorrrrrr!!!");
+	          }
+	        });
+	      }) 
+		});
 	</script>
-
-
-
-
 
 		<nav>
 			<div class="nav-wrapper brown darken-4">
@@ -85,15 +108,70 @@
 			</div>
 		</nav>  
 		
-	<div class="container"
+	<div class="container">
+		
+			<h3 class=" teal lighten-3 white-text center-align ">FINALIZAR LA COMPRA</h3>						
+		
 		<section id="checkout" class="container">
-			<table id="listaProducts">
-
-			</table>
 			<div class="row">
-				<button id="btnPay" class="btn left waves-effect btn-flat green white-text">Finalizar</button>
+			<h5 class=" orange darken-3 white-text center-align">LISTA DE PEDIDO</h5>
+			<table id="listaProducts">
+			</table>	
+			
+			<h5 class=" orange darken-3 white-text center-align">DATOS PERSONALES</h5>			
+				<form class="col l12 m12 s12" id="cliente" method="POST">
+				  <div class="row">
+				    <div class="input-field col l6 m6 s12">
+				      <i class="material-icons prefix">account_circle</i>
+				      <input id="icon_prefix" type="text" value="clienteexpress" class="validate" required>
+				      <label for="icon_prefix">Nombre y Apellido</label>
+				    </div>
+				    <div class="input-field col l6 m6 s12">
+				      <i class="material-icons prefix">phone</i>
+				      <input id="icon_telephone" type="tel" value="938756248"class="validate" required>
+				      <label for="icon_telephone">Teléfono</label>
+				    </div>
+				    <div class="input-field col l6 m6 s12">
+				      <i class="material-icons prefix">account_circle</i>
+				      <input id="icon_prefix" type="text" value="cliente@express" class="validate" required="">
+				      <label for="icon_prefix">Email</label>
+				    </div>
+				    <div class="input-field col l6 m6 s12">
+				      <i class="material-icons prefix">account_circle</i>
+				      <input id="icon_prefix" type="text" value="C/clienteexpress" class="validate" required="">
+				      <label for="icon_prefix">Dirección</label>
+				    </div>
+				    <div class="input-field col l6 m6 s12">
+				      <i class="material-icons prefix">account_circle</i>
+				      <input id="icon_prefix" type="text" value="08800" class="validate" required="">
+				      <label for="icon_prefix">Codigo Postal</label>
+				    </div>
+				      <div class="input-field col l6 m6 s12">
+				      	<p>
+						<input name="group1" type="radio" id="test1" required="required" />
+						<label for="test1">Recojer en tienda</label>
+						</p>
+						<p>
+						<input name="group1" type="radio" id="test2" required="required" />
+						<label for="test2">Entregar a domicilio</label>
+						</p>		    
+					   
+					  </div>
+				  </div>
+				<div class="row">
+				<button id="btnPay" type="submit" class="btn left waves-effect btn-flat green white-text">Finalizar</button>
+				</div>
+			</form>
 			</div>
-		</section>		
+			
+							
+		</section>	
+
+		<section id="thanks">
+			<div class="valign-wrapper green lighten-2" style="height:500px;">
+			<h4 style="width:100%" class="center white-text">Tu pedido se ha completado con exito, muchas gracias!</h4>
+			</div>
+		</section>	
 	</div>		
 
         <footer class="page-footer brown darken-4">
@@ -120,7 +198,6 @@
             <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
             </div>
           </div>
-        </footer>
-		
+        </footer>		
 	</body>
   </html>
